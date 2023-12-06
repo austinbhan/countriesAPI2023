@@ -17,6 +17,17 @@ app.get('/countries', async (req, res) => {
     }
 })
 
+app.get('/countries/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const singleCountry = await pool.query("SELECT * FROM countries WHERE id = $1", [id]);
+        res.json(singleCountry.rows[0]);
+    }
+    catch (err) {
+        console.error(err.message);
+    }
+})
+
 // Set up listeners 
 app.listen(4000, () => {
     console.log("server has started under port 4000");
